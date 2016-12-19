@@ -50,3 +50,24 @@ def load_data_set():
     X_test = load_mnist_images('t10k-images-idx3-ubyte.gz')
     y_test = load_mnist_labels('t10k-labels-idx1-ubyte.gz')
 
+    X_train, X_val = X_train[:-10000], X_train[-10000:]
+    y_train, y_val = y_train[:-10000], y_train[-10000:]
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+
+def build_mlp(input_var=None):
+    l_in = lasagne.layers.InputLayer(shape=(None, 1, 28, 28), input_var=input_var)
+    print(lasagne.layers.get_output(l_in).eval({input_var: input_var}).shape)
+
+    l_in_drop = lasagne.layers.DropoutLayer(l_in, p=0.2)
+    print(lasagne.layers.get_output(l_in_drop).eval({input_var: input_var}).shape)
+
+    l_hid1 = lasagne.layers.DenseLayer(
+        l_in_drop,
+        num_units=800,
+        nonlinearity=lasagne.nonlinearities.rectify,
+        w=lasagne.init.GlorotUniform()
+    )
+    print(lasagne.layers.get_output(l_hid1).eval({input: in}))
+
