@@ -63,11 +63,51 @@ def build_mlp(input_var=None):
     l_in_drop = lasagne.layers.DropoutLayer(l_in, p=0.2)
     print(lasagne.layers.get_output(l_in_drop).eval({input_var: input_var}).shape)
 
-    l_hid1 = lasagne.layers.DenseLayer(
-        l_in_drop,
-        num_units=800,
-        nonlinearity=lasagne.nonlinearities.rectify,
-        w=lasagne.init.GlorotUniform()
-    )
-    print(lasagne.layers.get_output(l_hid1).eval({input: in}))
+    l_hid1 = lasagne.layers.DenseLayer(l_in_drop, num_units=800,
+                                       nonlinearity=lasagne.nonlinearities.rectify, w=lasagne.init.GlorotUniform())
+    l_hid1_drop = lasagne.layers.DropoutLayer(l_hid1, p=0.5)
+    print(lasagne.layers.get_output(l_hid1_drop).eval({input_var: input_var}).shape)
 
+    l_hid2 = lasagne.layers.DenseLayer(l_hid1_drop, num_units=800,
+                                       nonlinearity=lasagne.nonlinearities.rectify)
+    l_hid2_drop = lasagne.layers.DropoutLayer(l_hid2, p=0.5)
+    print(lasagne.layers.get_output(l_hid2_drop).eval({input_var: input_var}).shape)
+
+    l_out = lasagne.layers.DenseLayer(l_hid2_drop, num_units=10,
+                                      nonlinearity=lasagne.nonlinearities.softmax)
+    print(lasagne.layers.get_output(l_out).eval({input_var: input_var}).shape)
+
+    return l_out
+
+
+def iterate_mini_batches(inputs, targets, batchsize, shuffle=False):
+    assert len(inputs) == len(targets)
+    if shuffle:
+        indices = np.arange(len(inputs))
+        np.random.shuffle(indices)
+    for start_idx in range(0, len(inputs) - batchsize + 1, batchsize):
+        if shuffle:
+            excerpt = indices[start_idx:start_idx + batchsize]
+        else:
+            excerpt = slice(start_idx, start_idx + batchsize)
+        yield inputs[excerpt], targets[excerpt]
+
+
+def main(model='mlp', num_epochs=500):
+    print("Loading data...")
+    X_train, y_train, X_val, y_val, X_text, y_test = load_data_set()
+
+    input_var = T.tensor4('inputs')
+    target_var = T.ivector('targets')
+
+    if model == 'mlp':
+        network = build_mlp(input_var)
+    elif model.startswith('custom_mlp:'):
+        depth, width, drop_in, drop_hid = model.split(':', 1)[1].split(',')
+        network = build_custom_mlp(input_var, int(depth), int(width),
+                                   float(drop_in), float(drop_hid))
+    elif model == 'cnn':
+        network = build_cnn(input_var)
+    else:
+        print("Unrecognized model type %r." % model)
+        return
