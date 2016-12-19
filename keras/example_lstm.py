@@ -13,7 +13,8 @@ from keras.layers import LSTM, Dense, Activation
 
 
 def load_data():
-	train_x, train_y, test_x, test_y = (1, 1, 1, 1)
+	train_x, train_y, test_x, test_y = 1, 1, 1, 1
+	train_x = np.array((1, 2), dtype=np.int32)
 	return train_x, train_y, test_x, test_y
 
 
