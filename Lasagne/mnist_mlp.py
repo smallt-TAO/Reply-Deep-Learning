@@ -80,6 +80,23 @@ def build_mlp(input_var=None):
     return l_out
 
 
+def build_custom_mlp(input_var=None, depth=2, width=800, drop_input=0.2, drop_hidden=0.5):
+    network = lasagne.layers.InputLayer(shape=(None, 1, 28, 28), input_var=input_var)
+    if drop_input:
+        network = lasagne.layers.dropout(network, p=drop_input)
+    nonlinear = lasagne.nonlinearities.rectify
+    for _ in range(depth):
+        network = lasagne.layers.DenseLayer(network, num_units=width, nonlinear=nonlinear)
+        if drop_hidden:
+            network = lasagne.layers.dropout(network, p=drop_hidden)
+
+    # Output layer:
+    softmax = lasagne.nonlinearities.softmax
+    network = lasagne.layers.DenseLayer(network, num_units=10, nonlinearity=softmax)
+
+    return network
+
+
 def iterate_mini_batches(inputs, targets, batchsize, shuffle=False):
     assert len(inputs) == len(targets)
     if shuffle:
@@ -91,6 +108,30 @@ def iterate_mini_batches(inputs, targets, batchsize, shuffle=False):
         else:
             excerpt = slice(start_idx, start_idx + batchsize)
         yield inputs[excerpt], targets[excerpt]
+
+
+def build_cnn(input_var=None):
+    network = lasagne.layers.InputLayer(shape=(None, 1, 28, 28), input_var=input_var)
+
+    network = lasagne.layers.Conv2DLayer(network, num_filters=32,
+                                         filter_size=(5, 5),
+                                         nonlinearity=lasagne.nonlinearities.rectify,
+                                         W=lasagne.init.GlorotUniform())
+    network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+    network = lasagne.layers.Conv2DLayer(network, num_filters=32,
+                                         filter_size=(5, 5),
+                                         nonlinearity=lasagne.nonlinearities.rectify)
+    network = lasagne.layers.MaxPool2DLayer(network, pool_size=(2, 2))
+
+    network = lasagne.layers.DenseLayer(lasagne.layers.dropout(network, p=.5),
+                                        num_nuits=256,
+                                        nonlinearoty=lasagne.nonlinearities.rectify)
+    network = lasagne.layers.DenseLayer(lasagne.layers.dropout(network, p=.5),
+                                        num_units=10,
+                                        nonlinearity=lasagne.nonlinearities.softmax)
+
+    return network
 
 
 def main(model='mlp', num_epochs=500):
