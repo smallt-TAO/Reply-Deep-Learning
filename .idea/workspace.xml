@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c6a5c57a-db76-43d0-a36c-feb4be0d298a" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Lasagne/mnist_mlp.py" afterPath="$PROJECT_DIR$/Lasagne/mnist_mlp.py" />
-    </list>
+    <list default="true" id="c6a5c57a-db76-43d0-a36c-feb4be0d298a" name="Default" comment="" />
     <ignored path="DeepLearning_Tools.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -22,28 +20,6 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="DockManager">
-    <window id="2">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="MNIST_mlp.py" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/../demodemodemo/Lasagne/MNIST_mlp.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.86928105">
-                    <caret line="262" column="22" selection-start-line="168" selection-start-column="4" selection-end-line="262" selection-end-column="22" />
-                    <folding>
-                      <element signature="e#112#149#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="DeepLearning_Tools" />
@@ -53,8 +29,8 @@
       <file leaf-file-name="mnist_mlp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Lasagne/mnist_mlp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="3.0757825">
-              <caret line="212" column="0" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
+            <state vertical-scroll-proportion="-1.8995057">
+              <caret line="130" column="53" selection-start-line="130" selection-start-column="53" selection-end-line="130" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -428,7 +404,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14860907" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -642,8 +618,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../demodemodemo/Lasagne/MNIST_mlp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86928105">
-          <caret line="262" column="22" selection-start-line="168" selection-start-column="4" selection-end-line="262" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.8039216">
+          <caret line="254" column="21" selection-start-line="254" selection-start-column="21" selection-end-line="254" selection-end-column="21" />
           <folding>
             <element signature="e#112#149#0" expanded="true" />
           </folding>
@@ -652,8 +628,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Lasagne/mnist_mlp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.0757825">
-          <caret line="212" column="0" selection-start-line="212" selection-start-column="0" selection-end-line="212" selection-end-column="0" />
+        <state vertical-scroll-proportion="-1.8995057">
+          <caret line="130" column="53" selection-start-line="130" selection-start-column="53" selection-end-line="130" selection-end-column="53" />
           <folding />
         </state>
       </provider>
