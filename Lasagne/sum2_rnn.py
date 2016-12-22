@@ -36,3 +36,33 @@ def gen_data(min_length=MIN_LENGTH, max_length=MAX_LENGTH, n_batch=N_BATCH):
     for n in range(n_batch):
         length = np.random.randint(min_length, max_length)
         mask[n, : length] = 1
+        X[n, length:, 0] = 0
+        X[n, np.random.randint(length / 10), 1] = 1
+        X[n, np.random.randint(length / 2, length), 1] = 1
+        y[n] = np.sum(X[n, :, 0] * X[n, :, 1])
+    X -= X.reshape(-1, 2).mean(axis=0)
+    y -= y.mean()
+    return (X.astype(theano.config.floatX), y.astype(theano.config.floatX),
+            mask.astype(theano.config.floatX))
+
+
+def main(num_epochs=NUM_EPOCHS):
+    print("Building network ...")
+    l_in = lasagne.layers.InputLayer(shape=(N_BATCH, MAX_LENGTH, 2))
+    l_mask = lasagne.layers.InputLayer(shape=(N_BATCH, MAX_LENGTH))
+
+    l_forward = lasagne.layers.RecurrentLayer(l_in, N_HIDDEN, mask_input=l_mask,
+                                              grad_clipping=GRAD_CLIP,
+                                              W_in_to_hid=lasagne.init.HeUniform(),
+                                              W_hid_to_hid=lasagne.nonlinearities.tanh,
+                                              only_return_final=True)
+    l_backward = lasagne.layers.RecurrentLayer(l_in, N_HIDDEN, mask_input=l_mask,
+                                               grad_clipping=GRAD_CLIP,
+                                               W_in_to_hid=lasagne.init.HeUniform(),
+                                               W_hid_to_hid=lasagne.nonlinearities.tanh,
+                                               only_return_final=True, backwards=True)
+
+    l_concat = lasagne.layers.ConcatLayer([l_forward, l_backward])
+    l_out = lasagne.layers.DenseLayer(l_concat, num_units=1, nonlinearity=lasagne.nonlinearities.tanh)
+
+    target_values = T.vector('target_output')
