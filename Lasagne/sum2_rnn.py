@@ -18,6 +18,7 @@ N_HIDDEN = 100
 N_BATCH = 100
 LEARNING_RATE = 0.001
 GRAD_CLIP = 100
+EPOCH_SIZE = 100
 NUM_EPOCHS = 10
 
 
@@ -66,3 +67,31 @@ def main(num_epochs=NUM_EPOCHS):
     l_out = lasagne.layers.DenseLayer(l_concat, num_units=1, nonlinearity=lasagne.nonlinearities.tanh)
 
     target_values = T.vector('target_output')
+
+    network_output = lasagne.layers.get_output(l_out)
+    predicted_values = network_output.flatten()
+    cost = T.mean(0.5 * (predicted_values - target_values) ** 2)
+    all_params = lasagne.layers.get_all_params(l_out)
+
+    print("Computing updates ...")
+    updates = lasagne.updates.adagrad(cost, all_params, LEARNING_RATE)
+    print("Computing functions ...")
+    train = theano.function([l_in.input_var, target_values, l_mask.input_var],
+                            cost, updates=updates)
+    compute_cost = theano.function([l_in.input_var, target_values, l_mask.input_var], cost)
+
+    X_val, y_val, mask_val = gen_data()
+
+    print("Training...")
+    try:
+        for epoch in range(num_epochs):
+            for _ in range(EPOCH_SIZE):
+                X, y, m = gen_data()
+                train(X, y, m)
+            cost_val = compute_cost(X_val, y_val, mask_val)
+            print("Epoch {} validation cost = {}".format(epoch, cost_val))
+    except KeyboardInterrupt:
+        pass
+
+if __name__ == '__main__':
+    main()
