@@ -75,13 +75,14 @@ sess.run(tf.initialize_all_variables())
 
 for i in range(20000):
     batch = mnist.train.next_batch(50)
+    # mini-batch for the train.
 
     if i % 100 == 0:
-        train_accuacy = accuracy.eval(feed_dict={
+        train_accuracy = accuracy.eval(feed_dict={
             x: batch[0],
             y_: batch[1],
             keep_prob: 1.0})
-        print("step %d, training accuracy %g" % (i, train_accuacy))
+        print("step %d, training accuracy %g" % (i, train_accuracy))
     train_step.run(feed_dict={
         x: batch[0],
         y_: batch[1],
@@ -92,3 +93,7 @@ print("test accuracy %g" % (accuracy.eval(feed_dict={
     x: mnist.test.images,
     y_: mnist.test.labels,
     keep_prob: 1.0})))
+
+# assume the test
+test_a = tf.reshape(tf.placeholder(tf.float32, [None, 784]), [-1, 28, 28, 1])
+print("test result %d" % (y_conv.eval(feed_dict={x: mnist.test.images})))
