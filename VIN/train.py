@@ -6,38 +6,38 @@ from model import VI_Block, VI_Untied_Block
 from utils import fmt_row
 
 # Data
-tf.app.flags.DEFINE_string('input',           'data/gridworld_8.mat', 'Path to data')
-tf.app.flags.DEFINE_integer('imsize',         8,                      'Size of input image')
+tf.app.flags.DEFINE_string('input', 'data/gridworld_8.mat', 'Path to data')
+tf.app.flags.DEFINE_integer('imsize', 8, 'Size of input image')
 # Parameters
-tf.app.flags.DEFINE_float('lr',               0.001,                  'Learning rate for RMSProp')
-tf.app.flags.DEFINE_integer('epochs',         30,                     'Maximum epochs to train for')
-tf.app.flags.DEFINE_integer('k',              10,                     'Number of value iterations')
-tf.app.flags.DEFINE_integer('ch_i',           2,                      'Channels in input layer')
-tf.app.flags.DEFINE_integer('ch_h',           150,                    'Channels in initial hidden layer')
-tf.app.flags.DEFINE_integer('ch_q',           10,                     'Channels in q layer (~actions)')
-tf.app.flags.DEFINE_integer('batchsize',      12,                     'Batch size')
-tf.app.flags.DEFINE_integer('statebatchsize', 10,                     'Number of state inputs for each sample (real number, technically is k+1)')
-tf.app.flags.DEFINE_boolean('untied_weights', False,                  'Untie weights of VI network')
+tf.app.flags.DEFINE_float('lr', 0.001, 'Learning rate for RMSProp')
+tf.app.flags.DEFINE_integer('epochs', 30, 'Maximum epochs to train for')
+tf.app.flags.DEFINE_integer('k', 10,  'Number of value iterations')
+tf.app.flags.DEFINE_integer('ch_i', 2, 'Channels in input layer')
+tf.app.flags.DEFINE_integer('ch_h', 150, 'Channels in initial hidden layer')
+tf.app.flags.DEFINE_integer('ch_q', 10, 'Channels in q layer (~actions)')
+tf.app.flags.DEFINE_integer('batchsize', 12, 'Batch size')
+tf.app.flags.DEFINE_integer('statebatchsize', 10, 'Number of state inputs for each sample (real number, technically is k+1)')
+tf.app.flags.DEFINE_boolean('untied_weights', False, 'Untie weights of VI network')
 # Misc.
-tf.app.flags.DEFINE_integer('seed',           0,                      'Random seed for numpy')
-tf.app.flags.DEFINE_integer('display_step',   1,                      'Print summary output every n epochs')
-tf.app.flags.DEFINE_boolean('log',            False,                  'Enable for tensorboard summary')
-tf.app.flags.DEFINE_string('logdir',          '/tmp/vintf/',          'Directory to store tensorboard summary')
+tf.app.flags.DEFINE_integer('seed', 0, 'Random seed for numpy')
+tf.app.flags.DEFINE_integer('display_step', 1, 'Print summary output every n epochs')
+tf.app.flags.DEFINE_boolean('log', False, 'Enable for tensorboard summary')
+tf.app.flags.DEFINE_string('logdir', '/tmp/vintf/', 'Directory to store tensorboard summary')
 
 config = tf.app.flags.FLAGS
 
 np.random.seed(config.seed)
 
 # symbolic input image tensor where typically first channel is image, second is the reward prior
-X  = tf.placeholder(tf.float32, name="X",  shape=[None, config.imsize, config.imsize, config.ch_i])
+X = tf.placeholder(tf.float32, name="X",  shape=[None, config.imsize, config.imsize, config.ch_i])
 # symbolic input batches of vertical positions
-S1 = tf.placeholder(tf.int32,   name="S1", shape=[None, config.statebatchsize])
+S1 = tf.placeholder(tf.int32, name="S1", shape=[None, config.statebatchsize])
 # symbolic input batches of horizontal positions
-S2 = tf.placeholder(tf.int32,   name="S2", shape=[None, config.statebatchsize])
-y  = tf.placeholder(tf.int32,   name="y",  shape=[None])
+S2 = tf.placeholder(tf.int32, name="S2", shape=[None, config.statebatchsize])
+y = tf.placeholder(tf.int32, name="y", shape=[None])
 
 # Construct model (Value Iteration Network)
-if (config.untied_weights):
+if config.untied_weights:
     logits, nn = VI_Untied_Block(X, S1, S2, config)
 else:
     logits, nn = VI_Block(X, S1, S2, config)
@@ -76,7 +76,7 @@ with tf.Session() as sess:
     for epoch in range(int(config.epochs)):
         tstart = time.time()
         avg_err, avg_cost = 0.0, 0.0
-        num_batches = int(Xtrain.shape[0]/batch_size)
+        num_batches = int(Xtrain.shape[0] / batch_size)
         # Loop over all batches
         for i in range(0, Xtrain.shape[0], batch_size):
             j = i + batch_size
