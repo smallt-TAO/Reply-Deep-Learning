@@ -2,28 +2,26 @@
 
 using namespace std;
 
-class Solution{
+class Solution {
 public:
-    void replaceSpace(char *str,int length){
+    void replaceSpace(char *str, int length){
         int count = 0;
         int len = length;
-        for(int i = 0; i < length; i++){
-            if(str[i] == ' '){
+        for (int i = 0; i < length; i++) {
+            if (str[i] == ' ') {
                 count++;
             }
         }
 
         len = length + count * 2;
         for(int i = length - 1, j = len - 1;
-            i >= 0 && j >= 0;){
-            if(str[i] == ' ')
-            {
+                i >= 0 && j >= 0;) {
+            if (str[i] == ' ') {
                 str[j--] = '0';
                 str[j--] = '2';
                 str[j--] = '%';
                 i--;
-            }
-            else{
+            } else {
                 str[j--]  = str[i--];
             }
         }
