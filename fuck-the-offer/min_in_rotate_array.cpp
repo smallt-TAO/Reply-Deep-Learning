@@ -18,6 +18,7 @@ public:
                 res = rotateArray[i];
             }
         }
+        cout << "find the number min" << endl;
 
         return res;
     }
