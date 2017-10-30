@@ -104,4 +104,4 @@ with tf.Session() as sess:
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(tf.not_equal(correct_prediction, y), dtype=tf.float32))
     acc = accuracy.eval({X: Xtest, S1: S1test, S2: S2test, y: ytest})
-    print(f'Accuracy: {100 * (1 - acc)}%')
+    print('Accuracy: {}%'.format(100 * (1 - acc)))
