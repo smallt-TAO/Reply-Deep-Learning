@@ -22,6 +22,18 @@ class Solution {
 
         return temp;
     }
+
+    ListNode* reverse(struct ListNode* head) {
+        if (head == NULL || head -> next == NULL) {
+            return head;
+        }
+
+        ListNode* pre = reverse(head -> next);
+        head -> next -> next = head;
+        head -> next = NULL;
+
+        return pre;
+    }
 };
 
 int main() {
@@ -45,6 +57,14 @@ int main() {
     Solution sol;
     node = sol.reverseList(list);
 
+    ListNode* list1 = node;
+    while (node) {
+        cout << node -> val;
+        node = node -> next;
+    }
+    cout << endl;
+
+    node = sol.reverse(list1);
     while (node) {
         cout << node -> val;
         node = node -> next;
