@@ -2,7 +2,7 @@
 
 using namespace std;
 
-#define __tmain main
+// #define __tmain main
 #ifdef __tmain 
 #define debug cout
 #else
@@ -113,7 +113,20 @@ int main() {
     }
     cout << endl;
 
-    ListNode* res = solu.mergeTwoList2(left, right);
+    ListNode haha[2];
+    haha[0].val = 1;
+    haha[0].next = &haha[1];
+    haha[1].val = 2;
+    haha[1].next = NULL;
+
+    ListNode* test = left;
+    while (test) {
+        debug << test -> val;
+        test = test -> next;
+    }
+
+    ListNode* res = solu.mergeTwoList2(left, haha);
+    
     while (res != NULL) {
         cout << res -> val;
         res = res -> next;
