@@ -14,7 +14,7 @@ parser.add_argument('--batch-size', type=int, default=64, metavar='N',
                     help='input batch size for training (default: 64)')
 parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                     help='input batch size for testing (default: 1000)')
-parser.add_argument('--epochs', type=int, default=10, metavar='N',
+parser.add_argument('--epochs', type=int, default=25, metavar='N',
                     help='number of epochs to train (default: 10)')
 parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
                     help='learning rate (default: 0.01)')
@@ -24,7 +24,7 @@ parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='disables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
-parser.add_argument('--log-interval', type=int, default=10, metavar='N',
+parser.add_argument('--log-interval', type=int, default=50, metavar='N',
                     help='how many batches to wait before logging training status')
 args = parser.parse_args()
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -56,19 +56,36 @@ class Net(nn.Module):
         self.conv1 = nn.Conv2d(1, 10, kernel_size=5)
         self.conv2 = nn.Conv2d(10, 20, kernel_size=5)
         self.conv2_drop = nn.Dropout2d()
-        self.fc1 = nn.Linear(320, 50)
-        self.fc2 = nn.Linear(50, 10)
 
-    def forword(self, x):
+        self.branch_conv1 = nn.Conv2d(1, 10, kernel_size=3)
+        self.branch_conv2 = nn.Conv2d(10, 20, kernel_size=3)
+        self.branch_conv3 = nn.Conv2d(20, 20, kernel_size=5)
+        
+        self.fc1 = nn.Linear(820, 80)
+        self.fc2 = nn.Linear(80, 10)
+
+    def forward(self, x):
+        # branch forword
+        b_x = F.relu(F.max_pool2d(self.branch_conv1(x), 2))
+        b_x = F.relu(F.max_pool2d(self.branch_conv2(b_x), 2))
+        b_x = b_x.view(-1, 500)
+        
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
         x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
         x = x.view(-1, 320)
+
+        # cat the branch
+        x = torch.cat((x, b_x), 1)
         x = F.relu(self.fc1(x))
         x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x)
 
-model = Net()
+try:
+    model = torch.load('model.pkl')
+except:
+    model = Net()
+
 if args.cuda:
     model.cuda()
 
@@ -89,7 +106,7 @@ def train(epoch):
         # begin optimizer
         optimizer.zero_grad()
         # output = model(data)
-        output = model.forword(data)
+        output = model.forward(data)
         loss = F.nll_loss(output, target)
         loss.backward()
         optimizer.step()
@@ -98,9 +115,27 @@ def train(epoch):
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.data[0]))
+            torch.save(model, 'model.pkl')
 
+def test():
+    model.eval()
+    test_loss = 0.0
+    correct = 0
+    for data, target in test_loader:
+        if args.cuda:
+            data, target = data.cuda(), target.cuda()
+        data, target = Variable(data, volatile=True), Variable(target)
+        output = model(data)
+        test_loss += F.nll_loss(output, target, size_average=False).data[0]
+        pred = output.data.max(1, keepdim=True)[1]
+        correct += pred.eq(target.data.view_as(pred)).cpu().sum()
+
+    test_loss /= len(test_loader.dataset)
+    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
+        test_loss, correct, len(test_loader.dataset),
+        100. * correct / len(test_loader.dataset)))
 
 if __name__ == '__main__':
     for epoch in range(1, args.epochs + 1):
-        train(epoch)
-
+        # train(epoch)
+        test()
