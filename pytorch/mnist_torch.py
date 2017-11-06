@@ -1,8 +1,9 @@
 from __future__ import print_function
+
 import argparse
 import torch
 import torch.nn as nn
-import torch.functional as F
+import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.autograd import Variable
@@ -67,9 +68,39 @@ class Net(nn.Module):
         x = self.fc2(x)
         return F.log_softmax(x)
 
-model = Net
+model = Net()
 if args.cuda:
     model.cuda()
 
-model
+print(model)
+print(model.parameters)
+
+# defien the optimizer
+optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+
+# train
+def train(epoch):
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        if args.cuda:
+            data, target = data.cuda(), target.cuda()
+        data, target = Variable(data), Variable(target)
+
+        # begin optimizer
+        optimizer.zero_grad()
+        # output = model(data)
+        output = model.forword(data)
+        loss = F.nll_loss(output, target)
+        loss.backward()
+        optimizer.step()
+
+        if batch_idx % args.log_interval == 0:
+            print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+                epoch, batch_idx * len(data), len(train_loader.dataset),
+                100. * batch_idx / len(train_loader), loss.data[0]))
+
+
+if __name__ == '__main__':
+    for epoch in range(1, args.epochs + 1):
+        train(epoch)
 
