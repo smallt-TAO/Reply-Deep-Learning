@@ -46,7 +46,7 @@ if __name__ == '__main__':
     criterion = nn.MSELoss()
     optimizer = optim.LBFGS(seq.parameters(), lr=0.8)
 
-    for i in range(15):
+    for i in range(1):
         def closure():
             optimizer.zero_grad()
             out = seq(input)
@@ -56,5 +56,5 @@ if __name__ == '__main__':
             return loss
         optimizer.step(closure)
 
-
+        torch.save(seq, 'model.pkl')
 
