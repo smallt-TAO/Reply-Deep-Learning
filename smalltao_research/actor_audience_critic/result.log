@@ -1,0 +1,9 @@
+## result of the origin model
+
+Episode 1040	Last length:   199	Average length: 194.98
+Solved! Running reward is now 195.02058443305356 and the last episode runs to 199 time steps!
+
+## result of the actor audience critic v1 model
+
+Episode 950     Last length:   199  Average length: 194.90
+Solved! Running reward is now 195.01931285472781 and the last episode runs to 199 time steps!
