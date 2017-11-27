@@ -1,0 +1,10 @@
+## 20171124
+First day of intern of AliHealth. Tuxiang is my boss.
+
+## 20171127
+Today, use the IDEA handle the recommend system. Review the code of the work ago.
+Learning the maven, maven is the kit for construct the project.
+Learning the OPDS, Open procecss distribute system for Ali.
+SQL query code. Simple code.
+
+
