@@ -1,11 +1,3 @@
-"""
-This is demo code for the idea of add audience for actor_critic model.
-using the audience to adjust the relationship of actor and critic.
-this code depend on the PyTorch
-version 2.0
-"""
-
-# import the utils packet
 import argparse
 import gym
 import numpy as np
@@ -41,22 +33,17 @@ SavedAction = namedtuple('SavedAction', ['action', 'value'])
 class Policy(nn.Module):
     def __init__(self):
         super(Policy, self).__init__()
-        self.affine1 = nn.Linear(4, 128)
-        self.action_head = nn.Linear(128, 2)
-        self.value_head = nn.Linear(128 + 2, 1)
-        self.audience_head = nn.Linear(128 + 2 + 4, 2)
+        self.affine1 = nn.Linear(4, 256)
+        self.action_head = nn.Linear(256, 2)
+        self.value_head = nn.Linear(256, 1)
 
         self.saved_actions = []
         self.rewards = []
 
     def forward(self, x):
-        old_x = x
         x = F.relu(self.affine1(x))
         action_scores = self.action_head(x)
-        # cat the x and action_scores
-        temp = torch.cat((x, old_x), 1)
-        audience_temp = self.audience_head(torch.cat((temp, action_scores), 1)) 
-        state_values = self.value_head(torch.cat((audience_temp, x), 1))
+        state_values = self.value_head(x)
         return F.softmax(action_scores), state_values
 
 

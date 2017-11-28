@@ -2,8 +2,15 @@
 
 Episode 1040	Last length:   199	Average length: 194.98
 Solved! Running reward is now 195.02058443305356 and the last episode runs to 199 time steps!
+Episode 580 Last length:   199  Average length: 194.80
+Solved! Running reward is now 195.00794901613762 and the last episode runs to 199 time steps!
 
 ## result of the actor audience critic v1 model
 
 Episode 950     Last length:   199  Average length: 194.90
 Solved! Running reward is now 195.01931285472781 and the last episode runs to 199 time steps!
+
+## result of the actor audience critic v2 model
+
+Episode 870     Last length:   199  Average length: 194.63
+Solved! Running reward is now 195.00497327815108 and the last episode runs to 199 time steps!
