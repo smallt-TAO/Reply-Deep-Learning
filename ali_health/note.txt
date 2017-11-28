@@ -6,5 +6,7 @@ Today, use the IDEA handle the recommend system. Review the code of the work ago
 Learning the maven, maven is the kit for construct the project.
 Learning the OPDS, Open procecss distribute system for Ali.
 SQL query code. Simple code.
+/Users/smalltao/Library/Logs/IntelliJIdea2017.2 IDEA.log.
+
 
 
