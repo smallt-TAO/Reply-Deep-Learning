@@ -8,5 +8,11 @@ Learning the OPDS, Open procecss distribute system for Ali.
 SQL query code. Simple code.
 /Users/smalltao/Library/Logs/IntelliJIdea2017.2 IDEA.log.
 
+## 20171129
+sudo pip install requests -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com
+This code is for origin python in MAC
+Maven setting for the all the projects in IEDA.
+ODPS SQL: code example: select * from TABLE limit 10;
+
 
 
