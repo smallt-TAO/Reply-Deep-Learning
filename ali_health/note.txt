@@ -14,5 +14,11 @@ This code is for origin python in MAC
 Maven setting for the all the projects in IEDA.
 ODPS SQL: code example: select * from TABLE limit 10;
 
-
+## 20171201
+ODPS upload and down file via tunnel kit:
+code example: 
+	whoami; 
+	tunnel upload log.txt test_project.test_table/p1="b1",p2="b2";
+	tunnel download test_project.test_table/p1="b1",p2="b2" log.txt;
+DEBUG:end_point=http://service-corp.odps.aliyun-inc.com/api
 
