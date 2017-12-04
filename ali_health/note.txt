@@ -22,3 +22,11 @@ code example:
 	tunnel download test_project.test_table/p1="b1",p2="b2" log.txt;
 DEBUG:end_point=http://service-corp.odps.aliyun-inc.com/api
 
+## 20171204
+IGraph: KV, KKV(PKey, SKey, value)
+AtomicSearch, JoinSearch, MergeSearch, AndSearch, AndNotSearch
+search {table=friend & keys=u1 & filter=gender='female'} join {joinfield=name} search {table=shoppong & filter=buytime}
+ODPS open data processing service
+SWIFT: queue of the query message.
+
+
