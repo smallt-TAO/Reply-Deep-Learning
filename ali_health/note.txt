@@ -29,4 +29,20 @@ search {table=friend & keys=u1 & filter=gender='female'} join {joinfield=name} s
 ODPS open data processing service
 SWIFT: queue of the query message.
 
+## 20171205
+CREATE TABLE if NOT EXISTS alijk_bigdata.lintao_test_edw_phr (
+    user_id bigint,
+	lintao bigint,
+	item_id string
+	)
+PARTITIONED BY (
+	ds bigint
+	)
+lifecycle 3;
+
+INSERT OVERWRITE TABLE alijk_bigdata.lintao_test_edw_phr PARTITION(ds=20171127)
+SELECT a.user_id, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY item_id) AS lintao, a.item_id
+FROM alijk_bigdata.edw_phr_usr_disease a
+WHERE a.ds=20171127;
+
 
