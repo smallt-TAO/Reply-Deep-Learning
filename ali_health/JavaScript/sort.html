@@ -1,0 +1,30 @@
+<html>
+<body>
+
+<script type="text/javascript">
+
+function sortNumber(a, b)
+{
+	return a - b
+}
+
+function sortDesc(a, b) {
+	return b - a
+}
+
+var arr = new Array(6)
+arr[0] = "10"
+arr[1] = "5"
+arr[2] = "40"
+arr[3] = "25"
+arr[4] = "1000"
+arr[5] = "1"
+
+document.write(arr + "<br />")
+document.write(arr.sort(sortNumber) + "<br />")
+document.write(arr.sort(sortDesc))
+
+</script>
+
+</body>
+</html>
