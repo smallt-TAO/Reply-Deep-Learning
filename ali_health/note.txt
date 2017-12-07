@@ -45,4 +45,39 @@ SELECT a.user_id, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY item_id) AS li
 FROM alijk_bigdata.edw_phr_usr_disease a
 WHERE a.ds=20171127;
 
+# 20171207
+select * from heyf_t10 \G; DEBUG in SQL.
+--@extra_output=
+--@extra_input=
+--odps sql 
+--********************************************************************--
+--author:侠涛
+--create time:2017-11-29 15:04:17
+--input table:
+--output table:
+--function: 功能描述
+--********************************************************************--
 
+SELECT buyer_id
+       ,CASE WHEN COUNT(item_id)>0 THEN -30
+             ELSE 0
+        END AS med_cnt
+       ,SUM(item_price)/(MAX(ds)-MIN(ds)+1) AS med_per_price
+FROM alijk_bigdata.ods_phr_user_ord
+WHERE cate_level1_name = 'OTC药品/医疗器械/计生用品'
+AND ds > 20171200
+GROUP BY buyer_id
+LIMIT 100;
+
+--snacks_
+SELECT buyer_id
+       ,SUM(item_price)/(MAX(ds)-MIN(ds)+1) AS cal_per_price
+       ,MAX(ds) AS lately_rod
+       ,CASE WHEN SUM(item_price)/(MAX(ds)-MIN(ds)+1)>100 THEN -30
+             ELSE 0
+        END AS is_high_cal 
+FROM alijk_bigdata.ods_phr_user_ord
+WHERE cate_level1_name = '零食/坚果/特产'
+AND ds > 20171200
+GROUP BY buyer_id
+LIMIT 100;
