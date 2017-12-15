@@ -98,3 +98,10 @@ AND ds > 20171100
 AND buyer_id = 13090141
 LIMIT 50
 ;
+
+##20171214
+TENNEL upload the data
+
+##20171215
+MAPJOIN in ODPS SQL
+
