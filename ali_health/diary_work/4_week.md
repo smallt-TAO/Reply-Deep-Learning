@@ -1,4 +1,4 @@
-##20171217
+##20171218
 public class App 
 {
     public static void main( String[] args ) throws Exception {
@@ -19,3 +19,14 @@ public class App
     }
 }
 
+##20171219
+ODPS SQL mapjoin
+optimization the sql code
+
+##20171221
+diaodu the jiedian 
+ODPS SQL
+bushuju
+
+##20171222
+tongji the data
