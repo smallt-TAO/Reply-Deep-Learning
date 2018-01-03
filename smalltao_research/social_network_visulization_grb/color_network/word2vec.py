@@ -4,15 +4,15 @@ import numpy as np
 
 
 def train_model():
-    sentences = word2vec.Text8Corpus(u'data/lin')
+    sentences = word2vec.Text8Corpus(u'../data/lin')
     print("Train the model.")
     model = word2vec.Word2Vec(sentences, size=3)
     print("Save the model.")
-    model.save(u"data/lin.model")
+    model.save(u"../model/lin.model")
 
 
 def infer_model():
-    model_infer = word2vec.Word2Vec.load("data/lin.model")
+    model_infer = word2vec.Word2Vec.load("../model/lin.model")
 
     matrix_size = 400
     pix = list()
@@ -28,6 +28,9 @@ def infer_model():
                 grb_matrix[i][j] = edge_temp
             except:
                 grb_matrix[i][j] = [0, 0, 0]
+
+    print(grb_matrix[:][:][0])
+
     matrix_max, matrix_min = max(pix), min(pix)
     gap = matrix_max - matrix_min
     for i in range(matrix_size):
@@ -41,7 +44,7 @@ def infer_model():
             except:
                 grb_matrix[i][j] = [0, 0, 0]
 
-    imsave("data/demo_color.png", np.array(grb_matrix))
+    imsave("../result/demo_color.png", np.array(grb_matrix))
 
 
 if __name__ == '__main__':

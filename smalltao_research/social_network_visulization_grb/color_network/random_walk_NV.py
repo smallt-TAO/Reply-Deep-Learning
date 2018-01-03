@@ -48,7 +48,7 @@ class RandomWalk(object):
 
         return root_vertex
 
-    def store_file(self, loop=100, file_name='data/lin'):
+    def store_file(self, loop=100, file_name='../data/lin'):
         # store the origin
         for i in range(len(self.matrix)):
             tem = [str(v) for v in self.matrix[i]]
