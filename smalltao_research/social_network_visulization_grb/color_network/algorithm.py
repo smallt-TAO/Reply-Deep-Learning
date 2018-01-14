@@ -49,6 +49,7 @@ def matrix_change(matrix):
         dict_d[i] = matrix_d[i]
     max_d = max(matrix_d)
     matrix_d_new = list()
+
     for num_v in range(max_d, 0, -1):
         for (k, v) in dict_d.items():
             if v == num_v:

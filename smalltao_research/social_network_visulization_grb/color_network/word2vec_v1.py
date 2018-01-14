@@ -11,6 +11,14 @@ def train_model(size=3):
     model.save(u"../model/lin.model")
 
 
+def max_min_normalization(x, x_max, x_min):
+    return (x - x_min) / (x_max - x_min)
+
+
+def sigmoid(input_x):
+        return 1.0 / (1 + np.exp(-float(input_x)))
+
+
 def infer_model(matrix_size=400):
     model_infer = word2vec.Word2Vec.load("../model/lin.model")
 
@@ -27,22 +35,35 @@ def infer_model(matrix_size=400):
                     pix.append(e)
                 grb_matrix[i][j] = edge_temp
             except:
-                grb_matrix[i][j] = [0, 0, 0]
+                node_1, node_2 = model_infer[str(i)], model_infer[str(j)]
+                edge_temp = list()
+                for ran in range(3):
+                    gap = (node_1[ran] - node_2[ran]) / 2
+                    edge_temp.append(gap)
+                    pix.append(gap)
+                grb_matrix[i][j] = edge_temp
 
-    # print(grb_matrix[:][:][0])
+    grb_matrix = np.array(grb_matrix)
+    # print(grb_matrix[:, :, 0])
 
     matrix_max, matrix_min = max(pix), min(pix)
-    gap = matrix_max - matrix_min
     for i in range(matrix_size):
         for j in range(matrix_size):
             try:
                 edge_vector = model_infer[str(i) + '->' + str(j)]
                 edge_temp = list()
                 for e in edge_vector:
-                    edge_temp.append((e - matrix_min) / gap * 255)
+                    # edge_temp.append(max_min_normalization(e, matrix_max, matrix_min))
+                    edge_temp.append(sigmoid(e))
                 grb_matrix[i][j] = edge_temp
             except:
-                grb_matrix[i][j] = [0, 0, 0]
+                node_1, node_2 = model_infer[str(i)], model_infer[str(j)]
+                edge_temp = list()
+                for ran in range(3):
+                    gap = (node_1[ran] - node_2[ran]) / 2
+                    edge_temp.append(sigmoid(gap))
+                    pix.append(sigmoid(gap))
+                grb_matrix[i][j] = edge_temp
 
     # imsave("../result/demo_color.png", np.array(grb_matrix))
     return np.array(grb_matrix)

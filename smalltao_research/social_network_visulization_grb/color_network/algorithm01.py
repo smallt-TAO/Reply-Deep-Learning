@@ -55,6 +55,7 @@ def matrix_alter(array_d, matrix):
         else:
             matrix_v.insert(0, array_d[i])
             flag = True
+
     matrix_new = [([0] * m) for si in range(m)]
     for i in range(m):
         for j in range(m):
