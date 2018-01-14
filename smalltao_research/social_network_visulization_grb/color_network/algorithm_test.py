@@ -3,7 +3,7 @@ import numpy as np
 import algorithm01
 import network
 import random_walk_NV
-import word2vec_v1 as word2vec
+import word2vec as word2vec
 
 
 def test_alg(network_matrix):
@@ -30,5 +30,6 @@ def test_alg(network_matrix):
 
 
 if __name__ == '__main__':
-    net = network.NetworkGene.scale_free(800, 20, 30)
+    # net = network.NetworkGene.scale_free(800, 20, 30)
+    net = network.NetworkGene.small_word(800, 20, 0.12)
     test_alg(net)
