@@ -1,3 +1,9 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -30,3 +36,16 @@ public:
         }
     }
 };
+
+
+int main() {
+    int a[] = {1, 2, 3};
+    vector<int> one(a, a + 3);
+    int b[] = {3, 4, 5};
+    vector<int> two(b, b + 3);
+
+    Solution sol;
+    cout << "Final result is: " << sol.findMedianSortedArrays(one, two) << endl;
+
+    return 0;
+}
