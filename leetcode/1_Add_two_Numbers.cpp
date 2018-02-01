@@ -1,4 +1,4 @@
-# leetcode 2
+// leetcode 2
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -7,6 +7,18 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
@@ -26,3 +38,18 @@ public:
         return res -> next;
     }
 };
+
+int main() {
+    ListNode* one = new ListNode(2);
+    ListNode* two = new ListNode(3);
+
+    Solution sol;
+    ListNode* res = sol.addTwoNumbers(one, two);
+    while(res != NULL) {
+        cout << res->val << endl;
+        res = res -> next;
+    }
+
+    return 1;
+}
+
