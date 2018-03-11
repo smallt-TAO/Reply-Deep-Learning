@@ -46,6 +46,8 @@ public:
         if ((map[0][0] == map[1][1] && map[1][1] == map[2][2] && map[2][2] == c) ||
             (map[0][2] == map[1][1] && map[1][1] == map[2][0] && map[2][0] == c))
             return 1;
+
+        return 0;
     }
 };
 
